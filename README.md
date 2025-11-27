@@ -1,17 +1,21 @@
 # cursor-light.nvim
 
-A clean and elegant light theme for Neovim, inspired by Cursor IDE's light theme. Features carefully crafted colors for optimal readability and a modern development experience.
+A pixel-perfect Neovim theme that replicates Cursor IDE's Light theme (v0.0.2). Provides exact color matching with comprehensive syntax highlighting and LSP semantic token support.
 
 ## ✨ Features
 
-- 🎨 Beautiful light color scheme matching Cursor IDE
-- 📐 Custom statuscolumn with line numbers and separator (matching Cursor's layout)
+- 🎯 **Exact color matching** - Replicated from Cursor IDE's official theme files
+- 🌳 **129+ Token Rules** - Comprehensive syntax highlighting patterns
+- 📐 Custom statuscolumn with line numbers and separator
 - 🔍 LSP Saga breadcrumbs integration with themed highlights
 - 🌲 nvim-tree integration with proper styling
-- 🎯 Comprehensive syntax highlighting for Treesitter and LSP
-- ⚡ Optimized for Go, JavaScript/TypeScript, Python, Dart, and more
+- 📑 barbar integration with Cursor-style tabs
+- ⚡ Language-specific optimizations (Python self, C++ this, decorators, etc.)
+- 📊 Git integration with accurate diff colors
 
 ## 📸 Screenshots
+
+![cursor-light.nvim](doc/img.png)
 
 The theme provides:
 - Clean white background (#FCFCFC)
@@ -24,20 +28,20 @@ The theme provides:
 ### Using [vim-plug](https://github.com/junegunn/vim-plug)
 
 ```vim
-Plug 'yourusername/cursor-light.nvim'
+Plug 'vpoltora/cursor-light.nvim'
 ```
 
 ### Using [packer.nvim](https://github.com/wbthomason/packer.nvim)
 
 ```lua
-use 'yourusername/cursor-light.nvim'
+use 'vpoltora/cursor-light.nvim'
 ```
 
 ### Using [lazy.nvim](https://github.com/folke/lazy.nvim)
 
 ```lua
 {
-  'yourusername/cursor-light.nvim',
+  'vpoltora/cursor-light.nvim',
   lazy = false,
   priority = 1000,
   config = function()
@@ -75,6 +79,7 @@ require('cursor-light').setup({
   integrations = {
     lspsaga = true,    -- Enable lspsaga breadcrumbs theming
     nvim_tree = true,  -- Enable nvim-tree styling
+    barbar = true,     -- Enable barbar tab styling
   },
 })
 ```
@@ -92,7 +97,6 @@ require('lspsaga').setup(
   vim.tbl_deep_extend('force', 
     cursor_light.lspsaga_config(),
     {
-      -- Your custom lspsaga settings here
       lightbulb = {
         enable = true,
         sign = false,
@@ -114,7 +118,6 @@ require('nvim-tree').setup(
   vim.tbl_deep_extend('force',
     cursor_light.nvim_tree_config(),
     {
-      -- Your custom nvim-tree settings here
       sort = {
         sorter = "case_sensitive",
       },
@@ -123,20 +126,45 @@ require('nvim-tree').setup(
 )
 ```
 
+#### barbar Configuration
+
+For barbar tab styling:
+
+```lua
+-- barbar will automatically use the theme colors
+-- No additional configuration needed, just install the plugin
+require('barbar').setup({
+  animation = false,
+  auto_hide = false,
+  tabpages = true,
+  clickable = true,
+  icons = {
+    button = '×',
+    separator = { left = '', right = '' },
+    modified = { button = '●' },
+    pinned = { button = '車' },
+  },
+})
+```
+
 ## 🎨 Color Palette
 
-The theme uses a carefully selected color palette:
+The theme uses the exact color palette from Cursor Light v0.0.2:
 
 | Element | Color | Hex |
 |---------|-------|-----|
 | Background | White | `#FCFCFC` |
 | Foreground | Dark Gray | `#141414` |
-| Keywords | Red | `#B3003F` |
+| Keywords | Red | `#B31B3F` |
 | Functions | Orange | `#DB704B` |
 | Strings | Purple | `#9E94D5` |
 | Types | Blue | `#206595` |
-| Comments | Gray | `#555555` |
+| Comments | Gray (italic) | `#6F6F6F` |
 | Constants | Blue | `#206595` |
+| Numbers | Magenta | `#B8448B` |
+| Properties | Purple-Blue | `#6049B3` |
+| Built-ins | Teal | `#6F9BA6` |
+| Macros/Decorators | Green | `#1F8A65` |
 
 ## 🔧 Requirements
 
@@ -151,6 +179,7 @@ For the best experience, use with these plugins:
 - `nvim-treesitter/nvim-treesitter` - Enhanced syntax highlighting
 - `nvimdev/lspsaga.nvim` - Beautiful breadcrumbs in winbar
 - `kyazdani42/nvim-tree.lua` - File explorer with themed styling
+- `romgrk/barbar.nvim` - Tab bar with Cursor-style tabs
 
 ## 🤝 Contributing
 

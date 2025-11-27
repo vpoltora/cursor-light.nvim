@@ -1,4 +1,4 @@
-local colors = require('cursor-light.colors').palette
+local colors = require("cursor-light.colors").palette
 
 local M = {}
 
@@ -7,8 +7,11 @@ function M.setup()
 	vim.opt.number = false
 	vim.opt.relativenumber = false
 
-	-- Font settings (matching Cursor)
-	vim.opt.guifont = "JetBrains Mono:h13"
+	-- Font settings (matching Cursor - compact size)
+	vim.opt.guifont = "JetBrains Mono:h11"
+	
+	-- Compact line spacing (matching Cursor)
+	vim.opt.linespace = 0
 
 	-- Cursor settings (matching Cursor - solid cursor)
 	vim.opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50"
@@ -21,13 +24,16 @@ function M.setup()
 	vim.opt.statuscolumn = "%s %4{v:lnum}  %#LineNrSeparator#│%*  "
 
 	-- Highlight for the separator line
-	vim.api.nvim_set_hl(0, 'LineNrSeparator', { fg = '#E0E0E0', bg = colors.bg })
+	vim.api.nvim_set_hl(0, "LineNrSeparator", { fg = "#E0E0E0", bg = colors.bg })
 
 	-- Highlight for line numbers in statuscolumn
-	vim.api.nvim_set_hl(0, 'LineNr', { fg = colors.line_number, bg = colors.bg })
+	vim.api.nvim_set_hl(0, "LineNr", { fg = colors.line_number, bg = colors.bg })
 
 	-- Global statusline for cleaner layout
 	vim.opt.laststatus = 3
+	
+	-- Always show tabline
+	vim.opt.showtabline = 2
 
 	-- Ensure statuscolumn is enabled for normal buffers, disabled for NvimTree
 	vim.api.nvim_create_autocmd("BufEnter", {

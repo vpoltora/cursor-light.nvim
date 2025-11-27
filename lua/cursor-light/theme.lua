@@ -1,4 +1,4 @@
-local colors = require('cursor-light.colors').palette
+local colors = require("cursor-light.colors").palette
 
 local M = {}
 
@@ -11,11 +11,11 @@ function M.setup()
 	vim.o.background = "light"
 	vim.g.colors_name = "cursor-light"
 
-	-- Editor highlights
+	-- Editor highlights (matching Cursor Light v0.0.2)
 	local highlights = {
 		-- Base
 		Normal = { fg = colors.fg, bg = colors.bg },
-		NormalFloat = { fg = colors.fg, bg = colors.bg_sidebar },
+		NormalFloat = { fg = colors.fg, bg = colors.bg_float },
 		NormalNC = { fg = colors.fg, bg = colors.bg },
 
 		-- Cursor
@@ -26,14 +26,14 @@ function M.setup()
 		LineNr = { fg = colors.line_number },
 
 		-- Selection
-		Visual = { bg = colors.visual },
-		VisualNOS = { bg = colors.visual },
+		Visual = { bg = colors.selection },
+		VisualNOS = { bg = colors.selection },
 		Search = { bg = colors.search },
 		IncSearch = { bg = colors.search, fg = colors.fg },
 
 		-- UI Elements
-		Pmenu = { fg = colors.fg, bg = colors.bg_sidebar },
-		PmenuSel = { bg = colors.visual, fg = colors.fg },
+		Pmenu = { fg = colors.fg_dark, bg = colors.bg_float },
+		PmenuSel = { bg = colors.selection_inactive, fg = colors.fg },
 		PmenuSbar = { bg = colors.border },
 		PmenuThumb = { bg = colors.line_number },
 		StatusLine = { fg = colors.line_number, bg = colors.bg_statusline },
@@ -43,11 +43,13 @@ function M.setup()
 		TabLineSel = { fg = colors.fg, bg = colors.bg },
 		VertSplit = { fg = colors.border },
 		WinSeparator = { fg = colors.border },
-		
-		-- Line number column separator (vertical line after line numbers)
-		LineNrSeparator = { fg = "#E0E0E0", bg = colors.bg },
+		FloatBorder = { fg = colors.border },
 
-		-- Syntax
+		-- Windows and groups
+		WinBar = { bg = colors.bg },
+		WinBarNC = { bg = colors.bg },
+
+		-- Syntax (Vim standard groups)
 		Comment = { fg = colors.comment, italic = true },
 		Constant = { fg = colors.constant },
 		String = { fg = colors.string },
@@ -56,7 +58,7 @@ function M.setup()
 		Boolean = { fg = colors.teal },
 		Float = { fg = colors.number },
 
-		Identifier = { fg = colors.fg },
+		Identifier = { fg = colors.variable },
 		Function = { fg = colors.func },
 
 		Statement = { fg = colors.keyword },
@@ -80,13 +82,13 @@ function M.setup()
 
 		Special = { fg = colors.orange },
 		SpecialChar = { fg = colors.orange },
-		Tag = { fg = colors.property },
-		Delimiter = { fg = colors.fg },
+		Tag = { fg = colors.green },
+		Delimiter = { fg = colors.variable },
 		SpecialComment = { fg = colors.comment, italic = true },
 		Debug = { fg = colors.red },
 
-		-- Treesitter
-		["@variable"] = { fg = colors.fg },
+		-- Treesitter (new standard)
+		["@variable"] = { fg = colors.variable },
 		["@variable.builtin"] = { fg = colors.teal },
 		["@variable.parameter"] = { fg = colors.orange },
 		["@variable.member"] = { fg = colors.property },
@@ -97,7 +99,8 @@ function M.setup()
 
 		["@string"] = { fg = colors.string },
 		["@string.escape"] = { fg = colors.green },
-		["@string.regex"] = { fg = colors.light_blue },
+		["@string.regex"] = { fg = colors.blue_bright },
+		["@string.special"] = { fg = colors.keyword },
 
 		["@character"] = { fg = colors.string },
 		["@number"] = { fg = colors.number },
@@ -108,6 +111,7 @@ function M.setup()
 		["@function.builtin"] = { fg = colors.teal },
 		["@function.macro"] = { fg = colors.green },
 		["@function.method"] = { fg = colors.func },
+		["@function.call"] = { fg = colors.func },
 
 		["@constructor"] = { fg = colors.type },
 		["@parameter"] = { fg = colors.orange },
@@ -116,6 +120,7 @@ function M.setup()
 		["@keyword.function"] = { fg = colors.keyword },
 		["@keyword.operator"] = { fg = colors.keyword },
 		["@keyword.return"] = { fg = colors.keyword },
+		["@keyword.import"] = { fg = colors.keyword, italic = true },
 
 		["@conditional"] = { fg = colors.keyword },
 		["@repeat"] = { fg = colors.keyword },
@@ -126,24 +131,27 @@ function M.setup()
 		["@type"] = { fg = colors.type },
 		["@type.builtin"] = { fg = colors.teal },
 		["@type.qualifier"] = { fg = colors.keyword },
+		["@type.definition"] = { fg = colors.type },
 
 		["@property"] = { fg = colors.property },
 		["@field"] = { fg = colors.property },
+		["@attribute"] = { fg = colors.property },
 
 		["@comment"] = { fg = colors.comment, italic = true },
 
-		["@punctuation.delimiter"] = { fg = colors.fg },
-		["@punctuation.bracket"] = { fg = colors.fg },
+		["@punctuation.delimiter"] = { fg = colors.variable },
+		["@punctuation.bracket"] = { fg = colors.variable },
 		["@punctuation.special"] = { fg = colors.orange },
 
-		["@tag"] = { fg = colors.property },
-		["@tag.attribute"] = { fg = colors.orange },
-		["@tag.delimiter"] = { fg = colors.fg },
+		["@tag"] = { fg = colors.green },
+		["@tag.html"] = { fg = colors.type },
+		["@tag.attribute"] = { fg = colors.property },
+		["@tag.delimiter"] = { fg = colors.fg_dark },
 
 		["@namespace"] = { fg = colors.type },
 		["@module"] = { fg = colors.type },
 
-		-- LSP Semantic Tokens
+		-- LSP Semantic Tokens (matching Cursor exactly)
 		["@lsp.type.namespace"] = { fg = colors.type },
 		["@lsp.type.type"] = { fg = colors.type },
 		["@lsp.type.class"] = { fg = colors.type },
@@ -151,13 +159,35 @@ function M.setup()
 		["@lsp.type.interface"] = { fg = colors.type },
 		["@lsp.type.struct"] = { fg = colors.type },
 		["@lsp.type.parameter"] = { fg = colors.orange },
-		["@lsp.type.variable"] = { fg = colors.fg },
+		["@lsp.type.variable"] = { fg = colors.variable },
 		["@lsp.type.property"] = { fg = colors.property },
-		["@lsp.type.enumMember"] = { fg = colors.constant },
+		["@lsp.type.enumMember"] = { fg = colors.variable },
 		["@lsp.type.function"] = { fg = colors.func },
 		["@lsp.type.method"] = { fg = colors.func },
 		["@lsp.type.macro"] = { fg = colors.green },
 		["@lsp.type.decorator"] = { fg = colors.green },
+		["@lsp.type.comment"] = { fg = colors.comment, italic = true },
+
+		-- Additional semantic tokens
+		["@lsp.mod.readonly"] = { fg = colors.constant },
+		["@lsp.mod.constant"] = { fg = colors.constant },
+		["@lsp.mod.global"] = { fg = colors.green },
+		["@lsp.typemod.variable.readonly"] = { fg = colors.constant },
+		["@lsp.typemod.variable.constant"] = { fg = colors.constant },
+		["@lsp.typemod.variable.defaultLibrary"] = { fg = colors.fg_dark },
+		["@lsp.typemod.variable.global"] = { fg = colors.green },
+		["@lsp.typemod.function.builtin"] = { fg = colors.teal },
+		["@lsp.typemod.class.builtin"] = { fg = colors.teal },
+
+		-- Language-specific (Python)
+		["@lsp.typemod.parameter.self.python"] = { fg = colors.magenta },
+		["@decorator.python"] = { fg = colors.green },
+		["@function.call.python"] = { fg = colors.property },
+
+		-- Language-specific (C/C++)
+		["@lsp.type.variable.cpp"] = { fg = colors.variable },
+		["@boolean.cpp"] = { fg = colors.teal },
+		["@variable.this.cpp"] = { fg = colors.teal },
 
 		-- Diagnostics
 		DiagnosticError = { fg = colors.error },
@@ -170,14 +200,30 @@ function M.setup()
 		DiagnosticUnderlineHint = { undercurl = true, sp = colors.hint },
 
 		-- Git signs
-		DiffAdd = { fg = colors.green },
-		DiffChange = { fg = colors.yellow },
-		DiffDelete = { fg = colors.red },
-		DiffText = { fg = colors.yellow, bg = colors.visual },
+		DiffAdd = { bg = colors.diff_add_bg },
+		DiffChange = { bg = colors.diff_add_text_bg },
+		DiffDelete = { bg = colors.diff_delete_bg },
+		DiffText = { bg = colors.diff_add_text_bg },
 
-		GitSignsAdd = { fg = colors.green },
-		GitSignsChange = { fg = colors.yellow },
-		GitSignsDelete = { fg = colors.red },
+		GitSignsAdd = { fg = colors.git_add },
+		GitSignsChange = { fg = colors.git_change },
+		GitSignsDelete = { fg = colors.git_delete },
+
+		-- Gitsigns (specific)
+		GitSignsCurrentLineBlame = { fg = colors.git_ignored, italic = true },
+
+		-- Diff view
+		diffAdded = { fg = colors.git_add },
+		diffRemoved = { fg = colors.git_delete },
+		diffChanged = { fg = colors.git_change },
+		diffOldFile = { fg = colors.git_delete },
+		diffNewFile = { fg = colors.git_add },
+		diffFile = { fg = colors.blue },
+		diffLine = { fg = colors.property },
+		diffIndexLine = { fg = colors.fg_dark },
+
+		-- Links
+		Underlined = { fg = colors.link, underline = true },
 
 		-- Misc
 		ErrorMsg = { fg = colors.error },
@@ -186,11 +232,49 @@ function M.setup()
 		Question = { fg = colors.info },
 		Title = { fg = colors.blue, bold = true },
 		Directory = { fg = colors.blue },
-		MatchParen = { bg = colors.visual },
+		MatchParen = { bg = colors.selection },
 		Folded = { fg = colors.comment, bg = colors.bg_sidebar },
 		FoldColumn = { fg = colors.comment },
 		SignColumn = { bg = colors.bg },
 		ColorColumn = { bg = colors.bg_line },
+
+		-- Spell
+		SpellBad = { undercurl = true, sp = colors.error },
+		SpellCap = { undercurl = true, sp = colors.warning },
+		SpellLocal = { undercurl = true, sp = colors.info },
+		SpellRare = { undercurl = true, sp = colors.hint },
+
+		-- Quickfix
+		qfFileName = { fg = colors.blue },
+		qfLineNr = { fg = colors.fg_dark },
+
+		-- Indent guides
+		IndentBlanklineChar = { fg = colors.border },
+		IndentBlanklineContextChar = { fg = colors.border_focus },
+
+		-- Whitespace
+		Whitespace = { fg = colors.fg_light },
+		NonText = { fg = colors.fg_light },
+		SpecialKey = { fg = colors.fg_light },
+
+		-- Wild menu
+		WildMenu = { fg = colors.fg, bg = colors.selection },
+
+		-- Markdown
+		["@markup.heading"] = { fg = colors.variable, bold = true },
+		["@markup.raw"] = { fg = colors.green },
+		["@markup.link"] = { fg = colors.fg_dark },
+		["@markup.link.url"] = { fg = colors.blue, underline = true },
+		["@markup.list"] = { fg = colors.fg_dark },
+		["@markup.italic"] = { italic = true },
+		["@markup.strong"] = { bold = true },
+		["@markup.strikethrough"] = { fg = colors.line_number, strikethrough = true },
+
+		-- Help files
+		helpCommand = { fg = colors.green },
+		helpExample = { fg = colors.green },
+		helpHeadline = { fg = colors.blue, bold = true },
+		helpSectionDelim = { fg = colors.fg_dark },
 	}
 
 	for group, opts in pairs(highlights) do

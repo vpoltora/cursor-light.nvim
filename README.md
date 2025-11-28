@@ -5,13 +5,11 @@ A pixel-perfect Neovim theme that replicates Cursor IDE's Light theme (v0.0.2). 
 ## ✨ Features
 
 - 🎯 **Exact color matching** - Replicated from Cursor IDE's official theme files
-- 🌳 **129+ Token Rules** - Comprehensive syntax highlighting patterns
 - 📐 Custom statuscolumn with line numbers and separator
 - 🔍 LSP Saga breadcrumbs integration with themed highlights
 - 🌲 nvim-tree integration with proper styling
 - 📑 barbar integration with Cursor-style tabs
 - ⚡ Language-specific optimizations (Python self, C++ this, decorators, etc.)
-- 📊 Git integration with accurate diff colors
 
 ## 📸 Screenshots
 

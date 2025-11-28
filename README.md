@@ -17,12 +17,6 @@ A pixel-perfect Neovim theme that replicates Cursor IDE's Light theme (v0.0.2). 
 
 ![cursor-light.nvim](doc/img.png)
 
-The theme provides:
-- Clean white background (#FCFCFC)
-- Centered line numbers with vertical separator
-- Color-coded breadcrumbs in the winbar
-- Consistent styling across all UI elements
-
 ## 📦 Installation
 
 ### Using [vim-plug](https://github.com/junegunn/vim-plug)
@@ -84,69 +78,6 @@ require('cursor-light').setup({
 })
 ```
 
-### Plugin Integrations
-
-#### LSP Saga Configuration
-
-The theme provides custom configuration for lspsaga. You can merge it with your settings:
-
-```lua
-local cursor_light = require('cursor-light')
-
-require('lspsaga').setup(
-  vim.tbl_deep_extend('force', 
-    cursor_light.lspsaga_config(),
-    {
-      lightbulb = {
-        enable = true,
-        sign = false,
-        virtual_text = true
-      },
-    }
-  )
-)
-```
-
-#### nvim-tree Configuration
-
-Similarly for nvim-tree:
-
-```lua
-local cursor_light = require('cursor-light')
-
-require('nvim-tree').setup(
-  vim.tbl_deep_extend('force',
-    cursor_light.nvim_tree_config(),
-    {
-      sort = {
-        sorter = "case_sensitive",
-      },
-    }
-  )
-)
-```
-
-#### barbar Configuration
-
-For barbar tab styling:
-
-```lua
--- barbar will automatically use the theme colors
--- No additional configuration needed, just install the plugin
-require('barbar').setup({
-  animation = false,
-  auto_hide = false,
-  tabpages = true,
-  clickable = true,
-  icons = {
-    button = '×',
-    separator = { left = '', right = '' },
-    modified = { button = '●' },
-    pinned = { button = '車' },
-  },
-})
-```
-
 ## 🎨 Color Palette
 
 The theme uses the exact color palette from Cursor Light v0.0.2:
@@ -180,15 +111,6 @@ For the best experience, use with these plugins:
 - `nvimdev/lspsaga.nvim` - Beautiful breadcrumbs in winbar
 - `kyazdani42/nvim-tree.lua` - File explorer with themed styling
 - `romgrk/barbar.nvim` - Tab bar with Cursor-style tabs
-
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to:
-
-- Report bugs
-- Suggest new features
-- Submit pull requests
-- Improve documentation
 
 ## 📄 License
 
